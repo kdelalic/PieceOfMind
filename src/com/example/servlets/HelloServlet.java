@@ -33,7 +33,7 @@ public class HelloServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		String username = request.getParameter("username");
-
+		String returnArray[] = sampleSearch.search(username);
 		try {
 			out.println("<!DOCTYPE html>");
 			out.println("<meta name='viewport' content='width=device-width'>");
@@ -57,9 +57,13 @@ public class HelloServlet extends HttpServlet {
 			out.println("</form>");
 			out.println("</div>");
 			out.println("</header>");
-
-			out.println("<p>Name: " + username + "</p>");
-
+			out.println("<p>Username: " + username + "</p>");
+			out.println("<p>Display Name: " + returnArray[3] + "</p>");
+			out.println("<p>Tweet: '" + returnArray[2] + "'</p>");
+			out.println("<p>Time: " + returnArray[1] + "</p>");
+			out.println("<p>Location: " + returnArray[0] + "</p>");
+			out.println("<p>Sentiment Analysis Results: " + returnArray[4] + ", " + returnArray[5] + ", "
+					+ returnArray[6] + ", " + returnArray[7] + "</p>");
 			out.println("</body></html>");
 		} finally {
 			out.close();
