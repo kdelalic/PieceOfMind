@@ -23,9 +23,5 @@
             </form>
         </div>
     </header>
-<% java.util.Date d = new java.util.Date(); %>
-<h1>
-Today's date is <%= d.toString() %> and this jsp page worked!
-</h1>
 </body>
 </html>

@@ -33,7 +33,7 @@ public class CSVUtils {
 	        		tweetLine = tweetLine + scanner.nextLine();
 	        		System.out.println("asd");
 	        	} catch (NoSuchElementException exception){
-	        		
+	        		System.out.println("ASDASD");
 	        	}
         	}
             System.out.println("Location= " + line.get(0) + ", Date and Time= " + line.get(1) + " , Tweet=" + line.get(2) + " , Username=" + line.get(3) + " , Relationship=" + line.get(4) + " , Education=" + line.get(5) + " , Money=" + line.get(6) + " , IDK=" + line.get(7));

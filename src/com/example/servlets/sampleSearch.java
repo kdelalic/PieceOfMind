@@ -1,5 +1,7 @@
 package com.example.servlets;
 
+
+// Placeholder that simulates a search result from our dataset.
 public class sampleSearch {
 	public static String[] search(String username) {
 		String[] john = { "Bangalore,India", "2012-07-01 14:44:33",
