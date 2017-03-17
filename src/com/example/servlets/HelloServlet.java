@@ -34,21 +34,27 @@ public class HelloServlet extends HttpServlet {
 		
 		//Our placeholder search. Later "returnArray" will be filled with all data 
 		//from the dataset that we want to display.
-		String returnArray[] = sampleSearch.search(username);
+		//String returnArray[] = sampleSearch.search(username);
+		
+		
+		
 		try {
 			
 			// Any code that is reused should be kept in the Template.java file.
 			out.println(Template.createHeader(username));
 			
+			
+			out.println("<p>"+CSVParser.Parse(username)+"<p>");
+			
 			// Information unique to each search (the important stuff, basically).
 			out.println("<p>Username: " + username + "</p>");
-			out.println("<p>Display Name: " + returnArray[3] + "</p>");
+			/*out.println("<p>Display Name: " + returnArray[3] + "</p>");
 			out.println("<p>Tweet: '" + returnArray[2] + "'</p>");
 			out.println("<p>Time: " + returnArray[1] + "</p>");
 			out.println("<p>Location: " + returnArray[0] + "</p>");
 			out.println("<p>Sentiment Analysis Results: " + returnArray[4] + ", " + 
 			  returnArray[5] + ", " + returnArray[6] + ", " + returnArray[7] + "</p>");
-			
+			*/
 			// The footer template that is reused on every page.
 			out.println(Template.createFooter());
 		
