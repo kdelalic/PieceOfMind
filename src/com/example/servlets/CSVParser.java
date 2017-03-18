@@ -1,42 +1,135 @@
 package com.example.servlets;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class CSVParser {
 
-	public static String Parse(String username) throws FileNotFoundException{
-		Tweet tweet;
-		if (0==0)
-			return "asdfasdf";
-		// Every time we parse a .csv we create a new User. The username comes from the 
-		// search bar in the app.
-		User user = new User(username);
+	private static final char DEFAULT_SEPARATOR = ',';
+	private static final char DEFAULT_QUOTE = '"';
 
-		//Placeholder .csv that I used for testing
-		String fileName = "tweets22.csv";
-		Scanner inputStream = new Scanner(new File(fileName));
-	
-		// Skip the first line. This line isn't a tweet, it just says "id,created_at,text"
-		inputStream.nextLine();
+	public static void main(String[] args) throws Exception {
 
-		while (inputStream.hasNext()){
-			String line = inputStream.nextLine(); 				// Read each line
-			String[] values = line.split(",");					// Split it up by commas
+		String csvFile = "sortedTweets.csv";
+		Scanner scanner = new Scanner(new File(csvFile),"UTF-8");
+		String tweetLine = null, check;
+		Boolean pass = false;
+		List<String> line = null;
 
-			tweet = new Tweet(values[0], values[1], values[2]);	// Create a new tweet
-			user.addTweetToTweets(tweet);						// Add tweet to user's list of tweets
+		while (scanner.hasNext()) {
+			tweetLine = scanner.nextLine();
+			pass = false;
+			while (!pass) {
+				try {
+					line = parseLine(tweetLine);
+					for (int i = 0; i < 8; i++) {
+						check = line.get(i);
+					}
+					pass = true;
+				} catch (IndexOutOfBoundsException exception) {
+					tweetLine += scanner.nextLine();
+				}
+			}
+			System.out.println("Location= " + line.get(0) + ", Date and Time= " + line.get(1) + " , Tweet="
+					+ line.get(2) + " , Username=" + line.get(3) + " , Relationship=" + line.get(4) + " , Education="
+					+ line.get(5) + " , Money=" + line.get(6) + " , IDK=" + line.get(7));
+		}
+		scanner.close();
+
+	}
+
+	public static List<String> parseLine(String cvsLine) {
+		return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+	}
+
+	public static List<String> parseLine(String cvsLine, char separators) {
+		return parseLine(cvsLine, separators, DEFAULT_QUOTE);
+	}
+
+	public static List<String> parseLine(String cvsLine, char separators, char customQuote) {
+
+		List<String> result = new ArrayList<>();
+
+		// if empty, return!
+		if (cvsLine == null && cvsLine.isEmpty()) {
+			return result;
 		}
 
-		inputStream.close();
+		if (customQuote == ' ') {
+			customQuote = DEFAULT_QUOTE;
+		}
 
-		/* TEST CODE 
-		ArrayList<Tweet> tweets = user.getTweets(); 	//Create ArrayList of tweets 
-		System.out.println(user.getUsername()); 		//Print current user's username
-		for (Tweet i : tweets)							
-			System.out.println(i.getMeta()); 			//Print time&date for all tweets*/
-		return "AAA";
-	}	
+		if (separators == ' ') {
+			separators = DEFAULT_SEPARATOR;
+		}
+
+		StringBuffer curVal = new StringBuffer();
+		boolean inQuotes = false;
+		boolean startCollectChar = false;
+		boolean doubleQuotesInColumn = false;
+
+		char[] chars = cvsLine.toCharArray();
+
+		for (char ch : chars) {
+
+			if (inQuotes) {
+				startCollectChar = true;
+				if (ch == customQuote) {
+					inQuotes = false;
+					doubleQuotesInColumn = false;
+				} else {
+
+					// Fixed : allow "" in custom quote enclosed
+					if (ch == '\"') {
+						if (!doubleQuotesInColumn) {
+							curVal.append(ch);
+							doubleQuotesInColumn = true;
+						}
+					} else {
+						curVal.append(ch);
+					}
+
+				}
+			} else {
+				if (ch == customQuote) {
+
+					inQuotes = true;
+
+					// Fixed : allow "" in empty quote enclosed
+					if (chars[0] != '"' && customQuote == '\"') {
+						curVal.append('"');
+					}
+
+					// double quotes in column will hit this!
+					if (startCollectChar) {
+						curVal.append('"');
+					}
+
+				} else if (ch == separators) {
+
+					result.add(curVal.toString());
+
+					curVal = new StringBuffer();
+					startCollectChar = false;
+
+				} else if (ch == '\r') {
+					// ignore LF characters
+					continue;
+				} else if (ch == '\n') {
+					// the end, break!
+					break;
+				} else {
+					curVal.append(ch);
+				}
+			}
+
+		}
+
+		result.add(curVal.toString());
+
+		return result;
+	}
+
 }

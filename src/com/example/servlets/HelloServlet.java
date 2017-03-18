@@ -44,7 +44,7 @@ public class HelloServlet extends HttpServlet {
 			out.println(Template.createHeader(username));
 			
 			
-			out.println("<p>"+CSVParser.Parse(username)+"<p>");
+			//out.println("<p>"+CSVParser.Parse(username)+"<p>");
 			
 			// Information unique to each search (the important stuff, basically).
 			out.println("<p>Username: " + username + "</p>");
