@@ -8,130 +8,129 @@ import java.util.Scanner;
 
 public class CSVUtils {
 
-    private static final char DEFAULT_SEPARATOR = ',';
-    private static final char DEFAULT_QUOTE = '"';
+	private static final char DEFAULT_SEPARATOR = ',';
+	private static final char DEFAULT_QUOTE = '"';
 
-    public static void main(String[] args) throws Exception {
-    	
-        String csvFile = "sortedTweets.csv";
-        Scanner scanner = new Scanner(new File(csvFile));
-        String tweetLine, check;
-        Boolean pass = false;
-        List<String> line = null;
-        
-        while (scanner.hasNext()) {
-        	tweetLine = scanner.nextLine();
-        	pass = false;
-        	while(!pass){
-	        	try{
-	        		line = parseLine(tweetLine);
-	        		for(int i = 0; i < 8; i++){
-	        			System.out.println(line.get(i));
-	        		}
-	        		pass = true;
-	        	}catch (IndexOutOfBoundsException exception){
-	        		tweetLine = tweetLine + scanner.nextLine();
-	        		System.out.println("asd");
-	        	} catch (NoSuchElementException exception){
-	        		System.out.println("ASDASD");
-	        	}
-        	}
-            System.out.println("Location= " + line.get(0) + ", Date and Time= " + line.get(1) + " , Tweet=" + line.get(2) + " , Username=" + line.get(3) + " , Relationship=" + line.get(4) + " , Education=" + line.get(5) + " , Money=" + line.get(6) + " , IDK=" + line.get(7));
-        }
-        scanner.close();
+	public static void main(String[] args) throws Exception {
 
-    }
+		String csvFile = "sortedTweets.csv";
+		Scanner scanner = new Scanner(new File(csvFile),"UTF-8");
+		String tweetLine = null, check;
+		Boolean pass = false;
+		List<String> line = null;
 
-    public static List<String> parseLine(String cvsLine) {
-        return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
-    }
+		while (scanner.hasNext()) {
+			tweetLine = scanner.nextLine();
+			pass = false;
+			while (!pass) {
+				try {
+					line = parseLine(tweetLine);
+					for (int i = 0; i < 8; i++) {
+						check = line.get(i);
+					}
+					pass = true;
+				} catch (IndexOutOfBoundsException exception) {
+					tweetLine += scanner.nextLine();
+				}
+			}
+			System.out.println("Location= " + line.get(0) + ", Date and Time= " + line.get(1) + " , Tweet="
+					+ line.get(2) + " , Username=" + line.get(3) + " , Relationship=" + line.get(4) + " , Education="
+					+ line.get(5) + " , Money=" + line.get(6) + " , IDK=" + line.get(7));
+		}
+		scanner.close();
 
-    public static List<String> parseLine(String cvsLine, char separators) {
-        return parseLine(cvsLine, separators, DEFAULT_QUOTE);
-    }
+	}
 
-    public static List<String> parseLine(String cvsLine, char separators, char customQuote) {
+	public static List<String> parseLine(String cvsLine) {
+		return parseLine(cvsLine, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+	}
 
-        List<String> result = new ArrayList<>();
+	public static List<String> parseLine(String cvsLine, char separators) {
+		return parseLine(cvsLine, separators, DEFAULT_QUOTE);
+	}
 
-        //if empty, return!
-        if (cvsLine == null && cvsLine.isEmpty()) {
-            return result;
-        }
+	public static List<String> parseLine(String cvsLine, char separators, char customQuote) {
 
-        if (customQuote == ' ') {
-            customQuote = DEFAULT_QUOTE;
-        }
+		List<String> result = new ArrayList<>();
 
-        if (separators == ' ') {
-            separators = DEFAULT_SEPARATOR;
-        }
+		// if empty, return!
+		if (cvsLine == null && cvsLine.isEmpty()) {
+			return result;
+		}
 
-        StringBuffer curVal = new StringBuffer();
-        boolean inQuotes = false;
-        boolean startCollectChar = false;
-        boolean doubleQuotesInColumn = false;
+		if (customQuote == ' ') {
+			customQuote = DEFAULT_QUOTE;
+		}
 
-        char[] chars = cvsLine.toCharArray();
+		if (separators == ' ') {
+			separators = DEFAULT_SEPARATOR;
+		}
 
-        for (char ch : chars) {
+		StringBuffer curVal = new StringBuffer();
+		boolean inQuotes = false;
+		boolean startCollectChar = false;
+		boolean doubleQuotesInColumn = false;
 
-            if (inQuotes) {
-                startCollectChar = true;
-                if (ch == customQuote) {
-                    inQuotes = false;
-                    doubleQuotesInColumn = false;
-                } else {
+		char[] chars = cvsLine.toCharArray();
 
-                    //Fixed : allow "" in custom quote enclosed
-                    if (ch == '\"') {
-                        if (!doubleQuotesInColumn) {
-                            curVal.append(ch);
-                            doubleQuotesInColumn = true;
-                        }
-                    } else {
-                        curVal.append(ch);
-                    }
+		for (char ch : chars) {
 
-                }
-            } else {
-                if (ch == customQuote) {
+			if (inQuotes) {
+				startCollectChar = true;
+				if (ch == customQuote) {
+					inQuotes = false;
+					doubleQuotesInColumn = false;
+				} else {
 
-                    inQuotes = true;
+					// Fixed : allow "" in custom quote enclosed
+					if (ch == '\"') {
+						if (!doubleQuotesInColumn) {
+							curVal.append(ch);
+							doubleQuotesInColumn = true;
+						}
+					} else {
+						curVal.append(ch);
+					}
 
-                    //Fixed : allow "" in empty quote enclosed
-                    if (chars[0] != '"' && customQuote == '\"') {
-                        curVal.append('"');
-                    }
+				}
+			} else {
+				if (ch == customQuote) {
 
-                    //double quotes in column will hit this!
-                    if (startCollectChar) {
-                        curVal.append('"');
-                    }
+					inQuotes = true;
 
-                } else if (ch == separators) {
+					// Fixed : allow "" in empty quote enclosed
+					if (chars[0] != '"' && customQuote == '\"') {
+						curVal.append('"');
+					}
 
-                    result.add(curVal.toString());
+					// double quotes in column will hit this!
+					if (startCollectChar) {
+						curVal.append('"');
+					}
 
-                    curVal = new StringBuffer();
-                    startCollectChar = false;
+				} else if (ch == separators) {
 
-                } else if (ch == '\r') {
-                    //ignore LF characters
-                    continue;
-                } else if (ch == '\n') {
-                    //the end, break!
-                    break;
-                } else {
-                    curVal.append(ch);
-                }
-            }
+					result.add(curVal.toString());
 
-        }
+					curVal = new StringBuffer();
+					startCollectChar = false;
 
-        result.add(curVal.toString());
+				} else if (ch == '\r') {
+					// ignore LF characters
+					continue;
+				} else if (ch == '\n') {
+					// the end, break!
+					break;
+				} else {
+					curVal.append(ch);
+				}
+			}
 
-        return result;
-    }
+		}
+
+		result.add(curVal.toString());
+
+		return result;
+	}
 
 }
