@@ -57,11 +57,13 @@ public class HelloServlet extends HttpServlet {
 				out.println("<p>ERROR: USERNAME NOT FOUND</p>");
 				out.println(Template.createFooter());
 			} else {
+				
 				// Any code that is reused should be kept in the Template.java file.
 				out.println(Template.createHeader(username));
-
-				// Information unique to each search (the important stuff,
-				// basically).
+				
+				out.println("<div id='tweetCon'>");
+				
+				// Information unique to each search (the important stuff, basically).
 				out.println("<p>Username: " + username + "</p>");
 				for (int i = 0; i < userTweets.size(); i++) {
 					out.println("<p>Tweet: '" + userTweets.get(i).getTweet() + "' at " + userTweets.get(i).getMeta() + " in "
@@ -70,7 +72,7 @@ public class HelloServlet extends HttpServlet {
 							+ userTweets.get(i).getAnalysis()[1] + ", " + userTweets.get(i).getAnalysis()[2] + ", "
 							+ userTweets.get(i).getAnalysis()[3] + "</p>");
 				}
-
+				out.println("</div>");
 				// The footer template that is reused on every page.
 				out.println(Template.createFooter());
 			}
