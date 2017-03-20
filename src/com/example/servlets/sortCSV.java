@@ -1,13 +1,17 @@
 package com.example.servlets;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class sortCSV {
 
-	public static void sort(Comparable[] a) {
-		StdRandom.shuffle(a); // Eliminate dependence on input.
-		sort(a, 0, a.length - 1);
+	public static ArrayList<User> sort(ArrayList<User> a) {
+		// Collections.shuffle(a); // Eliminate dependence on input.
+		sort(a, 1, a.size() - 1);
+		return a;
 	}
 
-	private static void sort(Comparable[] a, int lo, int hi) {
+	private static void sort(ArrayList<User> a, int lo, int hi) {
 		if (hi <= lo)
 			return;
 		int j = partition(a, lo, hi); // Partition (see page 291).
@@ -15,19 +19,19 @@ public class sortCSV {
 		sort(a, j + 1, hi); // Sort right part a[j+1 .. hi].
 	}
 
-	private static int partition(Comparable[] a, int lo, int hi) { // Partition
-																	// into
-																	// a[lo..i-1],
-																	// a[i],
-																	// a[i+1..hi].
+	private static int partition(ArrayList<User> a, int lo, int hi) { // Partition
+																		// into
+																		// a[lo..i-1],
+																		// a[i],
+																		// a[i+1..hi].
 		int i = lo, j = hi + 1; // left and right scan indices
-		Comparable v = a[lo]; // partitioning item
+		User v = a.get(lo); // partitioning item
 		while (true) { // Scan right, scan left, check for scan complete, and
 						// exchange.
-			while (less(a[++i], v))
+			while (less(a.get(++i).getUsername(), v.getUsername()))
 				if (i == hi)
 					break;
-			while (less(v, a[--j]))
+			while (less(v.getUsername(), a.get(--j).getUsername()))
 				if (j == lo)
 					break;
 			if (i >= j)
@@ -38,13 +42,18 @@ public class sortCSV {
 		return j; // with a[lo..j-1] <= a[j] <= a[j+1..hi].
 	}
 
-	private static boolean less(Comparable v, Comparable w) {
-		return v.compareTo(w) < 0;
+	private static boolean less(String u1, String u2) {
+		if (u1.equals(null)) {
+			return true;
+		} else if (u2.equals(null)) {
+			return false;
+		}
+		return u1.toUpperCase().compareTo(u2.toUpperCase()) < 0;
 	}
 
-	private static void exch(Comparable[] a, int i, int j) {
-		Comparable t = a[i];
-		a[i] = a[j];
-		a[j] = t;
+	private static void exch(ArrayList<User> a, int i, int j) {
+		User t = a.get(i);
+		a.set(i, a.get(j));
+		a.set(j, t);
 	}
 }

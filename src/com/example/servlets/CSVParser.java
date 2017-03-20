@@ -1,6 +1,7 @@
 package com.example.servlets;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,13 +11,15 @@ public class CSVParser {
 	private static final char DEFAULT_SEPARATOR = ',';
 	private static final char DEFAULT_QUOTE = '"';
 
-	public static void main(String[] args) throws Exception {
-
-		String csvFile = "sortedTweets.csv";
-		Scanner scanner = new Scanner(new File(csvFile),"UTF-8");
-		String tweetLine = null, check;
+	public static ArrayList<User> parse(String csvFile) throws FileNotFoundException {
+		System.out.println(new File(".").getAbsoluteFile());
+		ArrayList<User> userList = new ArrayList<User>();
+		Scanner scanner = new Scanner(new File(csvFile), "UTF-8");
+		String tweetLine = null;
 		Boolean pass = false;
 		List<String> line = null;
+		String prevUser = null;
+		User user = null;
 
 		while (scanner.hasNext()) {
 			tweetLine = scanner.nextLine();
@@ -25,18 +28,31 @@ public class CSVParser {
 				try {
 					line = parseLine(tweetLine);
 					for (int i = 0; i < 8; i++) {
-						check = line.get(i);
+						line.get(i);
 					}
 					pass = true;
 				} catch (IndexOutOfBoundsException exception) {
 					tweetLine += scanner.nextLine();
 				}
 			}
-			System.out.println("Location= " + line.get(0) + ", Date and Time= " + line.get(1) + " , Tweet="
-					+ line.get(2) + " , Username=" + line.get(3) + " , Relationship=" + line.get(4) + " , Education="
-					+ line.get(5) + " , Money=" + line.get(6) + " , IDK=" + line.get(7));
+
+			if (line.get(3).equals(prevUser)) {
+				Tweet tweet = new Tweet(line.get(0), line.get(1), line.get(2), line.get(4), line.get(5), line.get(6),
+						line.get(7));
+				user.addTweetToTweets(tweet);
+			} else {
+				userList.add(user);
+				user = new User(line.get(3));
+				Tweet tweet = new Tweet(line.get(0), line.get(1), line.get(2), line.get(4), line.get(5), line.get(6),
+						line.get(7));
+				user.addTweetToTweets(tweet);
+			}
+			prevUser = line.get(3);
+
 		}
 		scanner.close();
+
+		return userList;
 
 	}
 
