@@ -38,34 +38,27 @@ public class HelloServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String username = request.getParameter("username");
 
-		// Our placeholder search. Later "returnArray" will be filled with all
-		// data
-		// from the dataset that we want to display.
-		// String returnArray[] = sampleSearch.search(username);
-
 		ArrayList<User> sortedCSV = sortCSV.sort(CSVParser.parse(CSVFile));
 		ArrayList<Tweet> userTweets = null;
-		
-		if(SearchUsername.rank(username, sortedCSV) != -1){
-			userTweets = sortedCSV.get(SearchUsername.rank(username, sortedCSV)).getTweets();
-		}
 
 		try {
-			
-			if(SearchUsername.rank(username, sortedCSV) == -1){
+
+			if (SearchUsername.rank(username, sortedCSV) == -1) {
 				out.println(Template.createHeader(username));
 				out.println("<p>ERROR: USERNAME NOT FOUND</p>");
 				out.println(Template.createFooter());
 			} else {
-				// Any code that is reused should be kept in the Template.java file.
+				userTweets = sortedCSV.get(SearchUsername.rank(username, sortedCSV)).getTweets();
+				// Any code that is reused should be kept in the Template.java
+				// file.
 				out.println(Template.createHeader(username));
 
 				// Information unique to each search (the important stuff,
 				// basically).
 				out.println("<p>Username: " + username + "</p>");
 				for (int i = 0; i < userTweets.size(); i++) {
-					out.println("<p>Tweet: '" + userTweets.get(i).getTweet() + "' at " + userTweets.get(i).getMeta() + " in "
-							+ userTweets.get(i).getLocation() + "</p>");
+					out.println("<p>Tweet: '" + userTweets.get(i).getTweet() + "' at " + userTweets.get(i).getMeta()
+							+ " in " + userTweets.get(i).getLocation() + "</p>");
 					out.println("<p>Sentiment Analysis Results: " + userTweets.get(i).getAnalysis()[0] + ", "
 							+ userTweets.get(i).getAnalysis()[1] + ", " + userTweets.get(i).getAnalysis()[2] + ", "
 							+ userTweets.get(i).getAnalysis()[3] + "</p>");
@@ -74,8 +67,6 @@ public class HelloServlet extends HttpServlet {
 				// The footer template that is reused on every page.
 				out.println(Template.createFooter());
 			}
-
-			
 
 		} finally {
 			out.close();
