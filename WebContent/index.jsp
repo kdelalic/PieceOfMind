@@ -3,25 +3,21 @@
 
 <html>
 <head>
-	<!-- Basic Page Needs
-  	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<!-- Basic Page Needs -->
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Piece of Mind</title>
     
-    <!-- FONT
-  	–––––––––––––––––––––––––––––––––––––––––––––––––– -->    
+    <!-- FONT�� -->    
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">	
 
-   	<!-- CSS
-  	–––––––––––––––––––––––––––––––––––––––––––––––––– --> 
+   	<!-- CSS --> 
     <link rel="stylesheet" href="css/normalize.css">
   	<link rel="stylesheet" href="css/base.css">
   	<link rel="stylesheet" href="css/styles.css">
   	
-  	<!-- Javascript
-  	–––––––––––––––––––––––––––––––––––––––––––––––––– --> 
+  	<!-- Javascript --> 
   	<script src="js/Chart.js"></script>
   	
 </head>
