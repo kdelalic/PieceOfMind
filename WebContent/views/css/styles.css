@@ -1,0 +1,80 @@
+body {
+	background: linear-gradient(0deg, #57b0d8, #a9d9ec); 
+}
+
+#mapSearch {
+	width:50%;
+	float:left;
+}
+
+#everything {
+	margin-top:200px;
+}
+
+
+#userSearch {
+	width:50%;
+	float:left;
+}
+
+#all {
+	width:100%;
+	margin:auto;
+}
+
+form {
+	text-align:center;
+	margin:0% auto;
+}
+
+#textArea {
+	width:400px;
+	background-color:white;
+}
+
+#input {
+	width:400px;
+	display:block;
+	margin: 0 auto;
+	background-color:white;
+	height:70px;
+	font-size:2rem;
+	color: #a4a4a4;
+}
+
+#input:hover{
+	border:1px solid #79d7f5;
+}
+
+body { margin:0; padding:0; }
+
+#map { position:absolute; top:20%; bottom:20%; width:100%; }
+
+h1 {
+	text-align:center;
+	margin-top:300px;
+	font-family: 'Montserrat', sans-serif;
+	font-weight:600;
+	font-size:7rem;
+	color:white;
+	margin:auto;
+}
+
+h3 {
+	text-align:center;
+	font-family: 'Montserrat', sans-serif;
+	font-weight:600;
+	font-size:4rem;
+	color:white;
+	margin:auto;
+}
+
+#formm{
+	width:100%;
+}
+
+#title{
+	width:100%;
+	margin-top:15%;
+	margin-bottom:100px;
+}
