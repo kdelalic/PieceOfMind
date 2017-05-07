@@ -1,4 +1,4 @@
-# **  PieceOfMind**
+# PieceOfMind
 
 ## Summary
 Piece of Mind is a Java EE application built on Apache Tomcat that provides
@@ -12,7 +12,7 @@ Mind are individuals looking to understand the sentiment trends of other
 individuals, or businesses and other public entities looking to gain insight on
 public opinion around a given topic.
 
-![Class Diagram]({{site.baseurl}}/https://i.imgur.com/McLFwvY.png)
+![Class Diagram](https://i.imgur.com/McLFwvY.png)
 
 ## Internal Review
 Piece of Mind turned out to be a very interesting project with a unique set
@@ -48,7 +48,8 @@ the initial tweet, and, using them as the central node in an edge-weighted
 digraph, represent the propogation of retweets as branches out of the central
 node. See figure 1 for an illustration.
 
-![Figure 1]({{site.baseurl}}//2017-05-07%2015_22_23-PieceOfMind.pdf.png)
+![Figure 1](https://i.imgur.com/lB5trLX.png)
+
 Figure 1
 
 By analyzing the sentiments of the retweets as they propogated away from
